@@ -1,0 +1,20 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "mitchellh/boot2docker"
+
+  config.vm.provider "virtualbox" do |v|
+    # On VirtualBox, we don't have guest additions or a functional vboxsf
+    # in TinyCore Linux, so tell Vagrant that so it can be smarter.
+    v.check_guest_additions = false
+    v.functional_vboxsf     = false
+    v.memory = 512
+    v.cpus = 1
+  end
+
+  config.vm.network "forwarded_port", guest: 8080, host: 8080
+
+  # b2d doesn't support NFS
+  config.nfs.functional = false
+end
